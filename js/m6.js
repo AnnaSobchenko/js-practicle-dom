@@ -80,7 +80,7 @@ const listBooks = document.querySelector("ul");
 function renderList() {
 
     const bookMarkApp = books.map(book => {
-        return `<li class="item">
+        return `<li class="item" id=${book.id}>
         <p class="book__title">${book.title}</p>
         <button class="btn__del">Delete</button>
         <button class="btn__ed">Edit</button></li>`
@@ -102,10 +102,10 @@ function renderList() {
 renderList();
 
 function renderPreview(e) {
-    const book = books.find(book=>book.title===e.currentTarget.textContent)
+    const curBook = books.find(book=>book.title===e.currentTarget.textContent)
     // console.log(book);
-    renderMarkup(book);
-    div2.insertAdjacentHTML("afterbegin", renderMarkup(book));
+    renderMarkup(curBook);
+    div2.insertAdjacentHTML("afterbegin", renderMarkup(curBook));
 }
 function renderMarkup(book) {
     div2.innerHTML=""
@@ -115,7 +115,23 @@ function renderMarkup(book) {
     <p>${book.plot}</p>`
 }
 function renderButtonDel(e) {
-    console.log("delete");
+    console.log(e.target.parentNode);
+    console.log(e.target.parentNode.id);
+    
+    const curIndex = books.findIndex(book => e.target.parentNode.id === book.id)
+    console.log(curIndex);
+    const renderPrevEl = div2.querySelector("h2").textContent;
+    const renderTitleEl = div2.querySelector("h2");
+    if (renderTitleEl) {
+        console.log(books[curIndex].title);
+    if (books[curIndex].title === renderPrevEl) {
+        div2.innerHTML=""
+    } }
+
+    books.splice(curIndex, 1);    
+    list.innerHTML = "";
+    renderList()
+   
 }
 function renderButtonEdit(e) {
     console.log("edit");
