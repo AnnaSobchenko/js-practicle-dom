@@ -74,8 +74,8 @@ btn.textContent = "Add";
 div1.append(title, list, btn);
 
 const listBooks = document.querySelector("ul");
-
-
+const btnAdd = document.querySelector(".btn__add")
+btnAdd.addEventListener('click', addBook)
 
 function renderList() {
 
@@ -98,6 +98,7 @@ function renderList() {
     });
     
     
+    
 }
 renderList();
 
@@ -115,8 +116,8 @@ function renderMarkup(book) {
     <p>${book.plot}</p>`
 }
 function renderButtonDel(e) {
-    console.log(e.target.parentNode);
-    console.log(e.target.parentNode.id);
+    // console.log(e.target.parentNode);
+    // console.log(e.target.parentNode.id);
     
     const curIndex = books.findIndex(book => e.target.parentNode.id === book.id)
     console.log(curIndex);
@@ -135,4 +136,53 @@ function renderButtonDel(e) {
 }
 function renderButtonEdit(e) {
     console.log("edit");
+}
+
+function addBook(e) {
+    const newBook={id: `{Date.now}`, title:'', author:'', img:'', plot:''}
+    div2.insertAdjacentHTML('afterbegin', renderFormMarkup());
+    formFunction(newBook);
+    const btnSubmit = document.querySelector(".submit");
+    btnSubmit.addEventListener('click', saveChanges);
+    function saveChanges(e) {
+        console.log(newBook.title);
+        console.log(newBook.author);
+        console.log(newBook.img);
+        console.log(newBook.plot);
+        if (newBook.title && newBook.author && newBook.img && newBook.plot) {
+            books.push(newBook);
+            list.innerHTML = '';
+            renderList();
+            renderMarkup(newBook);
+            div2.innerHTML=""
+            div2.insertAdjacentHTML("afterbegin", renderMarkup(newBook));
+        }
+        console.log(newBook);
+        console.log(books);
+    }
+}
+
+function renderFormMarkup() {
+    return `<form action="">
+  <label for="">Name
+    <input type="text">
+  </label>
+  <label for="">Author
+    <input type="text">
+  </label>
+  <label for="">Image
+    <input type="text">
+  </label>
+  <label for="">Plot
+    <input type="text">
+  </label>
+  <button type ='button' class='submit'>Add</button>
+</form>`
+}
+
+function formFunction(book) {
+    document.querySelectorAll('input').forEach(el=>el.addEventListener('change',fillObject))
+    function fillObject(e) {        
+        book[e.target.name]=e.target.value
+}
 }
