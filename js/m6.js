@@ -53,6 +53,8 @@ const books=[
 	},
 ];
 
+localStorage.setItem("books", JSON.stringify(books))
+
 const divEl = document.querySelector("#root");
 const div1 = document.createElement("div");
 const div2 = document.createElement("div");
@@ -78,7 +80,7 @@ const btnAdd = document.querySelector(".btn__add")
 btnAdd.addEventListener('click', addBook)
 
 function renderList() {
-
+const books=JSON.parse(localStorage.getItem('books'))
     const bookMarkApp = books.map(book => {
         return `<li class="item" id=${book.id}>
         <p class="book__title">${book.title}</p>
@@ -129,7 +131,10 @@ function renderButtonDel(e) {
         div2.innerHTML=""
     } }
 
-    books.splice(curIndex, 1);    
+    // books.splice(curIndex, 1);    
+    const updatedbooks = books.filter(book => {
+        if (book !==)
+    })
     list.innerHTML = "";
     renderList()
    
@@ -139,7 +144,8 @@ function renderButtonEdit(e) {
 }
 
 function addBook(e) {
-    const newBook={id: `{Date.now}`, title:'', author:'', img:'', plot:''}
+    const newBook = { id: `{Date.now}`, title: '', author: '', img: '', plot: '' }
+    div2.innerHTML = '';
     div2.insertAdjacentHTML('afterbegin', renderFormMarkup());
     formFunction(newBook);
     const btnSubmit = document.querySelector(".submit");
